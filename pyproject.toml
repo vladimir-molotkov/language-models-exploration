@@ -24,4 +24,5 @@ dev = [
     "pre-commit>=4.2.0",
     "pytest>=8.4.0",
     "torch>=2.7.1",
+    "tqdm>=4.67.1",
 ]
