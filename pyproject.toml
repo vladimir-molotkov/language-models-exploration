@@ -1,7 +1,10 @@
 [project]
 name = "language-models-exploration"
 version = "0.1.0"
-description = "Add your description here"
+description = "Explore LLM train and inference"
+authors = [
+    {name = "vladimir-molotkov", email = "molotkov1vl@gmail.com"}
+]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
