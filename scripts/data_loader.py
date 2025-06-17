@@ -1,7 +1,9 @@
+from pathlib import Path
+
 from datasets import load_dataset, load_from_disk
 from transformers import BertTokenizerFast
 
-dataset_path = "./data/tokenized_squad"
+dataset_path = Path(__file__).parent.parent / "data/tokenized_squad"
 model_name = "bert-base-uncased"
 
 # Load tokenizer
@@ -91,7 +93,16 @@ tokenized_dataset = dataset.map(
     batched=True,
     remove_columns=dataset["train"].column_names,  # nbqa: E501
 )
-
+tokenized_dataset.set_format(
+    "torch",
+    columns=[
+        "input_ids",
+        "attention_mask",
+        "token_type_ids",
+        "start_positions",
+        "end_positions",
+    ],
+)
 tokenized_dataset.save_to_disk(dataset_path)
 tokenized_dataset = load_from_disk(dataset_path)
 
