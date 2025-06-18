@@ -16,7 +16,7 @@ from transformers import (
 )
 
 
-def main(num_epochs: Optional[int] = 1):
+def main(num_epochs: Optional[int] = 1, train_fraction: Optional[float] = 0.05):
     # fix warning
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -38,11 +38,15 @@ def main(num_epochs: Optional[int] = 1):
     dataset = load_dataset(dataset_name)
 
     # len(train_text) == 67349
-    train_texts = dataset["train"]["sentence"][:10_000]
-    train_labels = dataset["train"]["label"][:10_000]
+    # train_fraction is used to take only part of train dataset, not all
+    # 0.0 < train_fraction <= 1.0
+    n_rows = int(len(dataset["train"]["sentence"]) * train_fraction)
 
-    val_texts = dataset["validation"]["sentence"][:10_000]
-    val_labels = dataset["validation"]["label"][:10_000]
+    train_texts = dataset["train"]["sentence"][:n_rows]
+    train_labels = dataset["train"]["label"][:n_rows]
+
+    val_texts = dataset["validation"]["sentence"]
+    val_labels = dataset["validation"]["label"]
 
     # Tokenize dataset
     tokenizer = AutoTokenizer.from_pretrained(model_name)
