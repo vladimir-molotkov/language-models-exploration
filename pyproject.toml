@@ -28,6 +28,8 @@ dependencies = [
     "tqdm>=4.67.1",
 ]
 
-
 [tool.setuptools]
 py-modules = []
+
+[tool.isort]
+profile = "black"
