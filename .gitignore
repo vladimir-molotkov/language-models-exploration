@@ -196,5 +196,5 @@ cython_debug/
 data/
 mlruns/
 training_results/
-bert_sst2_classification/
+logs/
 .DS_Store
