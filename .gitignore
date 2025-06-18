@@ -194,3 +194,5 @@ cython_debug/
 .cursorindexingignore
 
 data/
+mlruns/
+training_results/
