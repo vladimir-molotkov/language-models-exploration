@@ -4,7 +4,6 @@ from typing import Optional
 import evaluate
 import fire
 import mlflow
-import mlflow.transformers
 import numpy as np
 import torch
 from datasets import load_dataset
