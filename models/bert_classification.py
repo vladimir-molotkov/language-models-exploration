@@ -112,14 +112,16 @@ trainer = Trainer(
 
 # Check untrained model quality
 accuracy_score = trainer.evaluate()["eval_accuracy"]
-print(f"\nPre-training Accuracy : {round(accuracy_score, 3)}")
+print(f"\nPre-training Accuracy : {round(accuracy_score, 3)}\n")
+
+print("### Model training started ###")
 
 # Train model
 trainer.train()
 
 # Final accuracy
 accuracy_score = trainer.evaluate()["eval_accuracy"]
-print(f"\nPost-training Accuracy : {round(accuracy_score, 3)}")
+print(f"\nPost-training Accuracy : {round(accuracy_score, 3)}\n")
 
 # Save model
 trainer.save_model(model_save_path)
