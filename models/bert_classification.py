@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 # Configuration
 mlflow_link = "http://localhost:5228"
 model_name = "distilbert-base-uncased"
-model_save_path = "./saved_models"
+model_save_path = "./saved_models/distilbert_sst2"
 max_length = 512
 dataset_name = "stanfordnlp/sst2"
 metric_name = "accuracy"
@@ -33,11 +33,12 @@ mlflow.transformers.autolog()
 # Load dataset SST2
 dataset = load_dataset(dataset_name)
 
-train_texts = dataset["train"]["sentence"]
-train_labels = dataset["train"]["label"]
+# len(train_text) == 67349
+train_texts = dataset["train"]["sentence"][:10_000]
+train_labels = dataset["train"]["label"][:10_000]
 
-val_texts = dataset["validation"]["sentence"]
-val_labels = dataset["validation"]["label"]
+val_texts = dataset["validation"]["sentence"][:10_000]
+val_labels = dataset["validation"]["label"][:10_000]
 
 # Tokenize dataset
 tokenizer = AutoTokenizer.from_pretrained(model_name)
