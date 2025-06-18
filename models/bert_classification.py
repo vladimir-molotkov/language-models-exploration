@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 # Configuration
 mlflow_link = "http://localhost:5228"
 model_name = "distilbert-base-uncased"
-model_save_path = "./saved_model"
+model_save_path = "./saved_models"
 max_length = 512
 dataset_name = "stanfordnlp/sst2"
 metric_name = "accuracy"
