@@ -1871,14 +1871,6 @@ source = { virtual = "." }
 dependencies = [
     { name = "accelerate" },
     { name = "datasets" },
-    { name = "pytorch-lightning" },
-    { name = "scikit-learn" },
-    { name = "transformers" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "datasets" },
     { name = "dvc" },
     { name = "evaluate" },
     { name = "fire" },
@@ -1890,21 +1882,16 @@ dev = [
     { name = "omegaconf" },
     { name = "pre-commit" },
     { name = "pytest" },
+    { name = "pytorch-lightning" },
+    { name = "scikit-learn" },
     { name = "torch" },
     { name = "tqdm" },
+    { name = "transformers" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "accelerate", specifier = ">=0.26.0" },
-    { name = "datasets", specifier = ">=3.6.0" },
-    { name = "pytorch-lightning", specifier = ">=2.5.1.post0" },
-    { name = "scikit-learn", specifier = ">=1.7.0" },
-    { name = "transformers", specifier = ">=4.52.4" },
-]
-
-[package.metadata.requires-dev]
-dev = [
     { name = "datasets", specifier = ">=3.6.0" },
     { name = "dvc", specifier = ">=3.60.1" },
     { name = "evaluate", specifier = ">=0.4.3" },
@@ -1917,8 +1904,11 @@ dev = [
     { name = "omegaconf", specifier = ">=2.3.0" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "pytest", specifier = ">=8.4.0" },
+    { name = "pytorch-lightning", specifier = ">=2.5.1.post0" },
+    { name = "scikit-learn", specifier = ">=1.7.0" },
     { name = "torch", specifier = ">=2.7.1" },
     { name = "tqdm", specifier = ">=4.67.1" },
+    { name = "transformers", specifier = ">=4.52.4" },
 ]
 
 [[package]]

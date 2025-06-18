@@ -197,3 +197,4 @@ data/
 mlruns/
 training_results/
 test_trainer/
+.DS_Store
