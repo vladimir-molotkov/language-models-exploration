@@ -14,13 +14,16 @@ from transformers import (
     logging,
 )
 
+# fix warning
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+# Configuration
 mlflow_link = "http://localhost:5228"
 model_name = "distilbert-base-uncased"
+model_save_path = "./saved_model"
 max_length = 512
 dataset_name = "stanfordnlp/sst2"
-metric = evaluate.load("accuracy")
+metric_name = "accuracy"
 
 # Setup MlFlow
 mlflow.set_tracking_uri(mlflow_link)
@@ -68,10 +71,13 @@ eval_dataset = SSTDataset(val_encodings, val_labels)
 
 # Ignore warning on model loading
 logging.set_verbosity_error()
+
 model = AutoModelForSequenceClassification.from_pretrained(
     model_name,
     num_labels=2,
 )
+
+metric = evaluate.load(metric_name)
 
 
 def compute_metrics(eval_pred):
@@ -81,14 +87,14 @@ def compute_metrics(eval_pred):
 
 
 training_args = TrainingArguments(
-    output_dir="./bert_sst2_classification",
+    output_dir="./logs/bert_sst2_classification",
     eval_strategy="steps",
     eval_steps=100,
     save_strategy="steps",
-    learning_rate=2e-5,
-    per_device_train_batch_size=32,
-    per_device_eval_batch_size=64,
-    num_train_epochs=3,
+    # learning_rate=2e-5,
+    # per_device_train_batch_size=32,
+    # per_device_eval_batch_size=64,
+    num_train_epochs=1,
     weight_decay=0.01,
     load_best_model_at_end=True,
     metric_for_best_model="accuracy",
@@ -114,3 +120,7 @@ trainer.train()
 # Final accuracy
 accuracy_score = trainer.evaluate()["eval_accuracy"]
 print(f"\nPost-training Accuracy : {round(accuracy_score, 3)}")
+
+# Save model
+trainer.save_model(model_save_path)
+tokenizer.save_pretrained(model_save_path)
