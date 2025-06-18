@@ -1,6 +1,8 @@
 import os
 
 import evaluate
+import mlflow
+import mlflow.transformers
 import numpy as np
 import torch
 from datasets import load_dataset
@@ -14,11 +16,16 @@ from transformers import (
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+mlflow_link = "http://localhost:5228"
 model_name = "distilbert-base-uncased"
 max_length = 512
 dataset_name = "stanfordnlp/sst2"
 metric = evaluate.load("accuracy")
 
+# Setup MlFlow
+mlflow.set_tracking_uri(mlflow_link)
+mlflow.set_experiment("SST2-DistilBERT")
+mlflow.transformers.autolog()
 
 # Load dataset SST2
 dataset = load_dataset(dataset_name)
@@ -74,7 +81,7 @@ def compute_metrics(eval_pred):
 
 
 training_args = TrainingArguments(
-    output_dir="./test_trainer",
+    output_dir="./bert_sst2_classification",
     eval_strategy="steps",
     eval_steps=100,
     save_strategy="steps",
@@ -85,7 +92,6 @@ training_args = TrainingArguments(
     weight_decay=0.01,
     load_best_model_at_end=True,
     metric_for_best_model="accuracy",
-    logging_dir="./logs",
     dataloader_pin_memory=False,
 )
 
@@ -97,12 +103,14 @@ trainer = Trainer(
     compute_metrics=compute_metrics,
 )
 
-# Check untrained model quality (should be 0.5, because random)
+
+# Check untrained model quality
 accuracy_score = trainer.evaluate()["eval_accuracy"]
-print(f"\nAccuracy : {round(accuracy_score, 3)}")
+print(f"\nPre-training Accuracy : {round(accuracy_score, 3)}")
 
 # Train model
 trainer.train()
 
+# Final accuracy
 accuracy_score = trainer.evaluate()["eval_accuracy"]
-print(f"\nAccuracy : {round(accuracy_score, 3)}")
+print(f"\nPost-training Accuracy : {round(accuracy_score, 3)}")
