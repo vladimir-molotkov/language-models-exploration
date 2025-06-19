@@ -3,10 +3,12 @@ from typing import Optional
 
 import evaluate
 import fire
+import hydra
 import mlflow
 import numpy as np
 import torch
 from datasets import load_dataset
+from omegaconf import OmegaConf
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -16,12 +18,22 @@ from transformers import (
 )
 
 
-def main(num_epochs: Optional[int] = 1, train_fraction: Optional[float] = 0.05):
+def main(num_epochs: Optional[int], train_fraction: Optional[float]):
     # fix warning
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+    with hydra.initialize(config_path="configs"):
+        hydra_cfg = hydra.compose(config_name="config")
+
+    cli_conf = OmegaConf.create(
+        {"training": {"num_epochs": num_epochs, "train_fraction": train_fraction}}
+    )
+    cfg = OmegaConf.merge(hydra_cfg, cli_conf)
+    print("Config finished")
+
     # Configuration
-    mlflow_link = "http://localhost:5228"
+    mlflow_tracking_uri = "http://localhost:5228"
+    mlflow_experiment_name = "SST2-DistilBERT"
     model_name = "distilbert-base-uncased"
     model_save_path = "./saved_models/distilbert_sst2"
     max_length = 512
@@ -30,8 +42,8 @@ def main(num_epochs: Optional[int] = 1, train_fraction: Optional[float] = 0.05):
     eval_metric = "accuracy"
 
     # Setup MlFlow
-    mlflow.set_tracking_uri(mlflow_link)
-    mlflow.set_experiment("SST2-DistilBERT")
+    mlflow.set_tracking_uri(mlflow_tracking_uri)
+    mlflow.set_experiment(mlflow_experiment_name)
     mlflow.transformers.autolog()
 
     # Load dataset SST2

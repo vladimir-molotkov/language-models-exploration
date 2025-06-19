@@ -1,0 +1,16 @@
+bert_model:
+  model_name: "distilbert-base-uncased"
+  save_path: "./saved_models/distilbert_sst2"
+
+ml_flow:
+  tracking_uri: "http://localhost:5228"
+  experiment_name: "SST2-DistilBERT"
+
+data:
+  dataset_name: "stanfordnlp/sst2"
+  max_length: 512
+
+training:
+  num_epochs: 1
+  eval_metric: "accuracy"
+  train_fraction: 0.05
