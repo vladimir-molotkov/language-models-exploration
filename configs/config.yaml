@@ -1,3 +1,7 @@
+hydra:
+  job:
+    chdir: true
+
 bert_model:
   model_name: "distilbert-base-uncased"
   save_path: "./saved_models/distilbert_sst2"

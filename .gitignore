@@ -199,3 +199,4 @@ training_results/
 logs/
 saved_models/
 .DS_Store
+outputs/
