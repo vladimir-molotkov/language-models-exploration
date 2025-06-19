@@ -34,8 +34,6 @@ def main(num_epochs: Optional[int] = None, train_fraction: Optional[float] = Non
     # cfg = OmegaConf.merge(hydra_cfg, cli_conf)
     cfg = hydra_cfg
 
-    mlflow_tracking_uri = cfg.ml_flow.tracking_uri
-    mlflow_experiment_name = cfg.ml_flow.experiment_name
     model_name = cfg.bert_model.model_name
     model_save_path = cfg.bert_model.save_path
     max_length = cfg.data.max_length
@@ -45,10 +43,11 @@ def main(num_epochs: Optional[int] = None, train_fraction: Optional[float] = Non
     train_fraction = cfg.training.train_fraction
     print("Config finished")
 
-    # Setup MlFlow
-    mlflow.set_tracking_uri(mlflow_tracking_uri)
-    mlflow.set_experiment(mlflow_experiment_name)
-    mlflow.transformers.autolog()
+    # Setup MlFlow if it is enabled
+    if cfg.ml_flow.logging_enable:
+        mlflow.set_tracking_uri(cfg.ml_flow.tracking_uri)
+        mlflow.set_experiment(cfg.ml_flow.experiment_name)
+        mlflow.transformers.autolog()
 
     # Load dataset SST2
     dataset = load_dataset(dataset_name)

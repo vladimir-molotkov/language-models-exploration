@@ -3,6 +3,7 @@ bert_model:
   save_path: "./saved_models/distilbert_sst2"
 
 ml_flow:
+  logging_enable: True
   tracking_uri: "http://localhost:5228"
   experiment_name: "SST2-DistilBERT"
 
