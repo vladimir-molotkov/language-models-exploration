@@ -8,7 +8,8 @@ import mlflow
 import numpy as np
 import torch
 from datasets import load_dataset
-from omegaconf import OmegaConf
+
+# from omegaconf import OmegaConf
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -18,28 +19,31 @@ from transformers import (
 )
 
 
-def main(num_epochs: Optional[int], train_fraction: Optional[float]):
+def main(num_epochs: Optional[int] = None, train_fraction: Optional[float] = None):
     # fix warning
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-    with hydra.initialize(config_path="configs"):
+    # Configuration
+    # Merge hydra config and parameters from CLI
+    with hydra.initialize(config_path="../configs", version_base="1.1"):
         hydra_cfg = hydra.compose(config_name="config")
 
-    cli_conf = OmegaConf.create(
-        {"training": {"num_epochs": num_epochs, "train_fraction": train_fraction}}
-    )
-    cfg = OmegaConf.merge(hydra_cfg, cli_conf)
-    print("Config finished")
+    # cli_conf = OmegaConf.create(
+    #     {"training": {"num_epochs": num_epochs, "train_fraction": train_fraction}}
+    # )
+    # cfg = OmegaConf.merge(hydra_cfg, cli_conf)
+    cfg = hydra_cfg
 
-    # Configuration
-    mlflow_tracking_uri = "http://localhost:5228"
-    mlflow_experiment_name = "SST2-DistilBERT"
-    model_name = "distilbert-base-uncased"
-    model_save_path = "./saved_models/distilbert_sst2"
-    max_length = 512
-    num_epochs = 1
-    dataset_name = "stanfordnlp/sst2"
-    eval_metric = "accuracy"
+    mlflow_tracking_uri = cfg.ml_flow.tracking_uri
+    mlflow_experiment_name = cfg.ml_flow.experiment_name
+    model_name = cfg.bert_model.model_name
+    model_save_path = cfg.bert_model.save_path
+    max_length = cfg.data.max_length
+    dataset_name = cfg.data.dataset_name
+    num_epochs = cfg.training.num_epochs
+    eval_metric = cfg.training.eval_metric
+    train_fraction = cfg.training.train_fraction
+    print("Config finished")
 
     # Setup MlFlow
     mlflow.set_tracking_uri(mlflow_tracking_uri)
