@@ -127,4 +127,4 @@ def main(num_epochs: Optional[int] = 1, train_fraction: Optional[float] = 0.05):
 
 
 if __name__ == "__main__":
-    fire.Fire(main())
+    fire.Fire(main)
