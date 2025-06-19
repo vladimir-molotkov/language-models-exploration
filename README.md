@@ -36,3 +36,4 @@ Explore and train language models
    ```
    uv run models/bert_sst_classification.py
    ```
+Note. By default it will not work without existing MLFlow instance. To disable this behavior change hydra config
