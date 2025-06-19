@@ -9,8 +9,7 @@ Explore and train language models
    ```
    cd language-models-exploration
    ```
-4. Install `uv`
-   You can install uv on macOS using `curl`:
+3. Install `uv` You can install uv on macOS using `curl`:
    ```
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
@@ -18,22 +17,22 @@ Explore and train language models
    ```
    brew install uv
    ```
-5. Create and activate python virtural environment
+4. Create and activate python virtural environment
    ```
    uv venv
    source .venv/bin/activate
    ```
-6. Install depencies
+5. Install depencies
    ```
    uv pip install -r pyproject.toml --all-extras
    ```
-7. Setup pre-commit
+6. Setup pre-commit
    ```
    pre-commit install
    ```
-8. Now you can train models and make experiments
-   For example:
+7. Now you can train models and make experiments For example:
    ```
    uv run models/bert_sst_classification.py
    ```
-Note. By default it will not work without existing MLFlow instance. To disable this behavior change hydra config
+   Note. By default it will not work without existing MLFlow instance. To disable this
+   behavior change hydra config
