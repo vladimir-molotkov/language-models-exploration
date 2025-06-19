@@ -1,15 +1,10 @@
-import os
-from typing import Optional
-
 import evaluate
-import fire
 import hydra
 import mlflow
 import numpy as np
 import torch
 from datasets import load_dataset
-
-# from omegaconf import OmegaConf
+from omegaconf import DictConfig
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -19,21 +14,12 @@ from transformers import (
 )
 
 
-def main(num_epochs: Optional[int] = None, train_fraction: Optional[float] = None):
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
+def main(cfg: DictConfig):
     # fix warning
-    os.environ["TOKENIZERS_PARALLELISM"] = "false"
+    # os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
     # Configuration
-    # Merge hydra config and parameters from CLI
-    with hydra.initialize(config_path="../configs", version_base="1.1"):
-        hydra_cfg = hydra.compose(config_name="config")
-
-    # cli_conf = OmegaConf.create(
-    #     {"training": {"num_epochs": num_epochs, "train_fraction": train_fraction}}
-    # )
-    # cfg = OmegaConf.merge(hydra_cfg, cli_conf)
-    cfg = hydra_cfg
-
     model_name = cfg.bert_model.model_name
     model_save_path = cfg.bert_model.save_path
     max_length = cfg.data.max_length
@@ -129,12 +115,12 @@ def main(num_epochs: Optional[int] = None, train_fraction: Optional[float] = Non
     print(f"\nPre-training Accuracy : {round(accuracy_score, 3)}\n")
 
     # Train model
-    print("### Model training started ###\n")
+    print("Model training started \n")
     trainer.train()
 
     # Final accuracy
     accuracy_score = trainer.evaluate()["eval_accuracy"]
-    print(f"\nPost-training Accuracy : {round(accuracy_score, 3)}\n")
+    print(f"\nFinal Accuracy : {round(accuracy_score, 3)}\n")
 
     # Save model
     trainer.save_model(model_save_path)
@@ -142,4 +128,4 @@ def main(num_epochs: Optional[int] = None, train_fraction: Optional[float] = Non
 
 
 if __name__ == "__main__":
-    fire.Fire(main)
+    main()
