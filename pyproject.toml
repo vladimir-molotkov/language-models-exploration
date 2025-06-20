@@ -33,3 +33,10 @@ py-modules = []
 
 [tool.isort]
 profile = "black"
+
+[tool.uv]
+exclude-newer = "2025-06-20T00:00:00Z"
+required-version = ">=0.7.0"
+
+[tool.uv.pip]
+exclude-newer = "2025-06-20T00:00:00Z"
