@@ -3,6 +3,7 @@ from pathlib import Path
 from datasets import load_dataset, load_from_disk
 from transformers import BertTokenizerFast
 
+
 dataset_path = Path(__file__).parent.parent / "data/tokenized_squad"
 model_name = "bert-base-uncased"
 
