@@ -38,8 +38,8 @@ def main(cfg: DictConfig):
     # Load dataset SST2
     dataset = load_dataset(dataset_name)
 
-    # len(train_text) == 67349
-    # train_fraction is used to take only part of train dataset, not all
+    # Size of train dataset is 67 349 rows
+    # train_fraction is used to take only part of train dataset
     # 0.0 < train_fraction <= 1.0
     n_rows = int(len(dataset["train"]["sentence"]) * train_fraction)
 
@@ -111,6 +111,7 @@ def main(cfg: DictConfig):
     )
 
     # Check untrained model quality
+    # It will be about 0.5 (random)
     accuracy_score = trainer.evaluate()["eval_accuracy"]
     print(f"\nPre-training Accuracy : {round(accuracy_score, 3)}\n")
 
