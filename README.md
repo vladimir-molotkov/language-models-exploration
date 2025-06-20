@@ -35,8 +35,8 @@ Explore and train language models
    uv run models/bert_sst_classification.py
    ```
    Note. By default it will not work without existing MLFlow instance. To disable this
-   behavior change hydra config or run with `ml_flow.logging_enable=False`. For example
+   behavior change hydra config or run with `ml_flow.enable=False`. For example
 
 ```
-uv run models/bert_sst_classification.py ml_flow.logging_enable=False
+uv run models/bert_sst_classification.py ml_flow.enable=False
 ```

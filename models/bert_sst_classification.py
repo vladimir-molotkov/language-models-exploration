@@ -30,7 +30,7 @@ def main(cfg: DictConfig):
     print("Config finished")
 
     # Setup MlFlow if it is enabled
-    if cfg.ml_flow.logging_enable:
+    if cfg.ml_flow.enable:
         mlflow.set_tracking_uri(cfg.ml_flow.tracking_uri)
         mlflow.set_experiment(cfg.ml_flow.experiment_name)
         mlflow.transformers.autolog()
