@@ -6,6 +6,8 @@ authors = [
     {name = "vladimir-molotkov", email = "molotkov1vl@gmail.com"}
 ]
 readme = "README.md"
+license = "MIT"
+keywords = ["bert", "llm", "nlp"]
 requires-python = ">=3.12"
 dependencies = [
     "accelerate>=0.26.0",
@@ -27,6 +29,9 @@ dependencies = [
     "torch>=2.7.1",
     "tqdm>=4.67.1",
 ]
+
+[project.urls]
+Repository = "https://github.com/vladimir-molotkov/language-models-exploration"
 
 [tool.setuptools]
 py-modules = []
